@@ -1,26 +1,28 @@
-<div fxLayout="column">
-    <div>
-        <h1>Buscador de Héroes</h1>
-        <mat-divider></mat-divider>
-    </div>
-    <div>
-        <h3>Buscador</h3>
+<div class="" fxLayout="column">
+  <h3>Buscador</h3>
 
-        <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Number</mat-label>
-            <input type="text"
-                   placeholder="Pick one"
-                   aria-label="Number"
-                   matInput
-                   [(ngModel)]="termino"
-                   [matAutocomplete]="auto"
-                   (input)="buscar()">
+  <mat-form-field fxFlex="100">
+    <mat-label>Buscador de héroes</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="searchInput"
+      (input)="searchHero()"
+      [matAutocomplete]="auto">
 
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let heroe of heroes" [value]="heroe">
-                {{ heroe.superhero }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-    </div>
+    <mat-autocomplete autoActiveFirstOption 
+      #auto="matAutocomplete"
+      (optionSelected)="onSelectedOption($event)">
+      <mat-option *ngFor="let hero of heroes" [value]="hero">
+        {{hero.superhero}}
+      </mat-option>
+
+      <mat-option 
+        *ngIf="heroes.length === 0 && searchInput.value && searchInput.value.length > 0"
+        value="">
+        No se encontró nada con el término "{{ searchInput.value }}"
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
 </div>
